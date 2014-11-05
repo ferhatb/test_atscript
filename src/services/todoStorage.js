@@ -1,7 +1,7 @@
 import {angular} from './../lib/angular.es6'
 import {Todo} from './../models/todo'
 
-var STORAGE_ID = 'ANGULAR-MVC';
+var STORAGE_ID = 'ATSCRIPT_TODO_V1';
 
 export class TodoStorage {
   //public todos:Array<Todo>
@@ -30,9 +30,23 @@ export class TodoStorage {
     this._saveToLocalStorage(this.todos);
   }
 
-  get():Array {
-    this.todos = this._getFromLocalStorage();
-    return this.todos;
+  load(completeCallback:Function) {
+    "use strict";
+    if (this._isInLocalStorage()) {
+      this.todos = this._getFromLocalStorage();
+      completeCallback(this.todos);
+    } else {
+      // First time app launch. Seed todos from todo_data.json.
+      this.todos = [{
+        'name': 'Name1',
+        'description': 'Description1',
+        'owner': 'Owner1',
+        'dueDate': 'Date1',
+        'priority': 'Priority1',
+        'isCompleted': false
+      }];
+      completeCallback(this.todos);
+    }
   }
 
   insert(todo:Todo) {
@@ -47,7 +61,12 @@ export class TodoStorage {
 
   _getFromLocalStorage():Array {
     return JSON.parse(this.localStorage.getItem(STORAGE_ID) || '[]').
-        map(data => new Todo(data.title, data.completed));
+        map(data => new Todo(data.name, data.completed));
+  }
+
+  _isInLocalStorage():boolean {
+    "use strict";
+    return !!this.localStorage.getItem(STORAGE_ID);
   }
 
   _saveToLocalStorage(todos:Array) {

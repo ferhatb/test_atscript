@@ -1,12 +1,13 @@
 export class Todo {
   //public title:string
   //public completed:boolean
-  constructor(title:string, completed:boolean) {
-    this.title = title;
+  constructor(name:string, completed:boolean) {
+    this.name = name;
     this.completed = completed;
   }
 
   clone():Todo {
-    return new Todo(this.title, this.completed);
+    return new Todo(this.name, this.completed);
   }
+
 }

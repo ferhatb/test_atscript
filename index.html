@@ -34,11 +34,11 @@
                     <div class="view">
                         <input class="toggle" type="checkbox" ng-model="todo.completed"
                                ng-change="ctrl.saveTodo(todo)">
-                        <label ng-dblclick="ctrl.editTodo(todo)">{{todo.title}}</label>
+                        <label ng-dblclick="ctrl.editTodo(todo)">{{todo.name}}</label>
                         <button class="destroy" ng-click="ctrl.removeTodo(todo)"></button>
                     </div>
                     <form ng-submit="ctrl.saveEdits(todo, 'submit')">
-                        <input class="edit" ng-trim="false" ng-model="ctrl.editedTodo.title"
+                        <input class="edit" ng-trim="false" ng-model="ctrl.editedTodo.name"
                                todo-escape="ctrl.revertEdits(todo)"
                                ng-blur="ctrl.saveEdits(todo, 'blur')" todo-focus="todo == ctrl.editedTodo">
                     </form>

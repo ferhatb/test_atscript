@@ -10,28 +10,31 @@ export class TodoCtrl {
   //private store:TodoStorage
   constructor($scope, $filter, store:TodoStorage) {
     this.store = store;
-    this.todos = $scope.todos = store.get();
 
     this.newTodo = '';
     this.editedTodo = null;
     this.originalTodo = null;
 
+    store.load((todos) => {
+      "use strict";
+      this.todos = $scope.todos = todos;
+    });
     this._setUpWatch($scope, $filter);
   }
 
   addTodo() {
     var newTodo = new Todo(this.newTodo.trim(), false);
 
-    if (!newTodo.title) return;
+    if (!newTodo.name) return;
 
     this.store.insert(newTodo);
     this.newTodo = '';
   }
 
   saveEdits(todo:Todo) {
-    todo.title = todo.title.trim();
+    todo.name = todo.name.trim();
 
-    if (todo.title !== undefined) {
+    if (todo.name !== undefined) {
       this.saveTodo(todo);
     } else {
       this.removeTodo(todo);
